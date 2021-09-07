@@ -13,7 +13,6 @@ public class OppgaveO3 {
 
 		for (int i = 1; i <= n; i++) {
 			nF *= i;
-			System.out.println(nF);
 		}
 		showMessageDialog(null, nF);
 	}

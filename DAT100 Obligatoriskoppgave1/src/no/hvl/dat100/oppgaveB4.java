@@ -13,16 +13,6 @@ public class oppgaveB4 {
 
 	public static void main(String[] args) {
 		
-		int brutto = Integer.parseInt(showInputDialog("Bruttoinntekt:"));
-		showMessageDialog(null, trinnskattUtregning(brutto, tromsOgFinnmark()));
-		
-	}
-	
-	
-	public static String trinnskattUtregning(int brutto, boolean tromsOgFinnmarkBool) {
-		// variabler
-		String trinnskattProsent = "Trinn 0";
-		
 		final double TRINNSKATT_PROSENT_TRINN1 = 1.70 / 100;
 		final double TRINNSKATT_PROSENT_TRINN2 = 4.00 / 100;
 		final double TRINNSKATT_PROSENT_TRINN3 = 13.20 / 100;
@@ -38,51 +28,53 @@ public class oppgaveB4 {
 		double trinn2 = 0.0;
 		double trinn3 = 0.0;
 		double trinn4 = 0.0;
+		
+		int brutto = Integer.parseInt(showInputDialog("Bruttoinntekt:"));
 		int previousTrinn = brutto;
 		
+		trinn4 = trinnskattUtregning(brutto,previousTrinn,TRINNSKATT_PROSENT_TRINN4, TRINNSKATT4);
+		previousTrinn = previousTrinn(brutto, TRINNSKATT4);
+		trinn3 = trinnskattUtregningTrinn3(brutto,previousTrinn,TRINNSKATT_PROSENT_TRINN3, TRINNSKATT_PROSENT_TRINN3_TF, TRINNSKATT3);
+		previousTrinn = previousTrinn(brutto, TRINNSKATT3);
+		trinn2 = trinnskattUtregning(brutto,previousTrinn,TRINNSKATT_PROSENT_TRINN2, TRINNSKATT2);
+		previousTrinn = previousTrinn(brutto, TRINNSKATT2);
+		trinn1 = trinnskattUtregning(brutto,previousTrinn,TRINNSKATT_PROSENT_TRINN1, TRINNSKATT1);
+
+
+
 		
-			 //trinn v2
-			//trinn 4
-		if (brutto >= TRINNSKATT4) {
-			trinn4 = (previousTrinn - TRINNSKATT4) * TRINNSKATT_PROSENT_TRINN4;
-			previousTrinn = TRINNSKATT4;
-			trinnskattProsent = "Trinn 4";
-		}
-			//trinn 3
-		if (brutto >= TRINNSKATT3) {
-			if (tromsOgFinnmarkBool) {
-				trinn3 = (previousTrinn - TRINNSKATT3) * TRINNSKATT_PROSENT_TRINN3_TF;
-			} else {
-				trinn3 = (previousTrinn - TRINNSKATT3) * TRINNSKATT_PROSENT_TRINN3;
-			}
-			if (brutto < TRINNSKATT4) {
-				trinnskattProsent = "Trinn 3";
-			}
-			previousTrinn = TRINNSKATT3;
-		}
-			//trinn 2
-		if (brutto >= TRINNSKATT2) {
-			trinn2 = (previousTrinn - TRINNSKATT2) * TRINNSKATT_PROSENT_TRINN2;
-			if (brutto < TRINNSKATT3) {
-				trinnskattProsent = "Trinn 2";
-			}
-			previousTrinn = TRINNSKATT2;
-		}
-		
-			//trinn 1
-		if (brutto >= TRINNSKATT1) {
-			trinn1 = (previousTrinn - TRINNSKATT1) * TRINNSKATT_PROSENT_TRINN1;
-			if (brutto < TRINNSKATT2) {
-				trinnskattProsent = "Trinn 1";
-			}
-		}
-		
-		// jeg vet ikke egentlig helt hvordan trinnskatt fungerer så dette er kanskje ikke en riktig utregning av trinnskattsbeløpet.
-			// JEG HAR LEST SÅ MYE OM TRINNSKATT DETTE ER RIKTIG *OG* HVORDAN DET FUNGERER *OG* EN RIKTIG UTREGNING FUCK U OLD TESS
 		int trinnskattBeløp = (int) ((trinn1 + trinn2 + trinn3 + trinn4) + 0.5);
+		showMessageDialog(null, "beløp: " + trinnskattBeløp + "kr");
 		
-		String melding = trinnskattProsent + "\nbeløp: " + trinnskattBeløp + "kr";
-		return melding;
+
+		
+	}
+	
+	
+	public static double trinnskattUtregning(int brutto, int previousTrinn, double TRINNSKATT_PROSENT_TRINN, int TRINNSKATT) {
+		// variabler		
+		if (brutto >= TRINNSKATT) {
+			return (previousTrinn - TRINNSKATT) * TRINNSKATT_PROSENT_TRINN;
+		}
+		return 0.0;
+	}
+	
+	public static double trinnskattUtregningTrinn3(int brutto, int previousTrinn, double TRINNSKATT_PROSENT_TRINN, double TRINNSKATT_PROSENT_TRINN_TF, int TRINNSKATT) {
+		// variabler		
+		if (brutto >= TRINNSKATT) {
+			if (tromsOgFinnmark()) {
+				return (previousTrinn - TRINNSKATT) * TRINNSKATT_PROSENT_TRINN_TF;
+			}
+			return (previousTrinn - TRINNSKATT) * TRINNSKATT_PROSENT_TRINN;
+		}
+		return 0.0;
+	}
+	
+	public static int previousTrinn(int brutto, int TRINNSKATT) {
+		if (brutto >= TRINNSKATT) {
+			return TRINNSKATT;
+		}
+		return brutto;
 	}
 	
 	public static Boolean tromsOgFinnmark() {

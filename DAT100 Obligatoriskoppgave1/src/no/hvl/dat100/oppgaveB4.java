@@ -13,20 +13,14 @@ public class oppgaveB4 {
 
 	public static void main(String[] args) {
 		
-		// avgjør om brukeren bor i Troms og Finnmark, siden trinnskatt trinn 3 er annerledes i det tilfellet.
-		String tromsOgFinnmark;
-		
-		do {
-			tromsOgFinnmark = showInputDialog("Bor du i Troms og Finnmark? (J)a/(N)ei").toLowerCase();
-			if (!tromsOgFinnmark.contains("j") && !tromsOgFinnmark.contains("n")) {
-				showMessageDialog(null, "Vennligst skriv inn J for 'Ja', eller N for 'Nei'");
-			}
-		} while (!tromsOgFinnmark.contains("j") && !tromsOgFinnmark.contains("n"));
-		boolean tromsOgFinnmarkBool = (tromsOgFinnmark.contains("j"));
-
-		
-		// variabler
 		int brutto = Integer.parseInt(showInputDialog("Bruttoinntekt:"));
+		showMessageDialog(null, trinnskattUtregning(brutto, tromsOgFinnmark()));
+		
+	}
+	
+	
+	public static String trinnskattUtregning(int brutto, boolean tromsOgFinnmarkBool) {
+		// variabler
 		String trinnskattProsent = "Trinn 0";
 		
 		final double TRINNSKATT_PROSENT_TRINN1 = 1.70 / 100;
@@ -47,7 +41,7 @@ public class oppgaveB4 {
 		int previousTrinn = brutto;
 		
 		
-		// trinn v2
+			 //trinn v2
 			//trinn 4
 		if (brutto >= TRINNSKATT4) {
 			trinn4 = (previousTrinn - TRINNSKATT4) * TRINNSKATT_PROSENT_TRINN4;
@@ -83,14 +77,26 @@ public class oppgaveB4 {
 			}
 		}
 		
-		
 		// jeg vet ikke egentlig helt hvordan trinnskatt fungerer så dette er kanskje ikke en riktig utregning av trinnskattsbeløpet.
 			// JEG HAR LEST SÅ MYE OM TRINNSKATT DETTE ER RIKTIG *OG* HVORDAN DET FUNGERER *OG* EN RIKTIG UTREGNING FUCK U OLD TESS
 		int trinnskattBeløp = (int) ((trinn1 + trinn2 + trinn3 + trinn4) + 0.5);
 		
-		showMessageDialog(null, trinnskattProsent + "\nbeløp: " + trinnskattBeløp + "kr");
-		
-		
+		String melding = trinnskattProsent + "\nbeløp: " + trinnskattBeløp + "kr";
+		return melding;
+	}
+	
+	public static Boolean tromsOgFinnmark() {
+		// avgjør om brukeren bor i Troms og Finnmark, siden trinnskatt trinn 3 er annerledes i det tilfellet.
+			String tromsOgFinnmark;
+			
+			do {
+				tromsOgFinnmark = showInputDialog("Bor du i Troms og Finnmark? (J)a/(N)ei").toLowerCase();
+				if (!tromsOgFinnmark.contains("j") && !tromsOgFinnmark.contains("n")) {
+					showMessageDialog(null, "Vennligst skriv inn J for 'Ja', eller N for 'Nei'");
+				}
+			} while (!tromsOgFinnmark.contains("j") && !tromsOgFinnmark.contains("n"));
+			boolean tromsOgFinnmarkBool = (tromsOgFinnmark.contains("j"));
+			return tromsOgFinnmarkBool;
 	}
 
 }
